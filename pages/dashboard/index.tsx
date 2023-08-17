@@ -1,15 +1,20 @@
 import { Box, Card, CardContent, CardMedia, Container, Grid, Typography } from "@mui/material";
 import { NextPage } from "next";
-import vogue from '../../assets/Vogue.webp'
+import { useEffect, useState } from "react";
+import { useAccount } from 'wagmi';
 
 interface PoapPage {
     poap: Poap
 }
 
 interface Poap {
-    img: string;
-    name: string;
-    description: string;
+    claimed_by: string
+    claimed_on: Date
+    name: string
+    description: string
+    image_url: string
+    start_date: Date
+    end_date: Date
 }
 
 const PoapCard = ({ poap }: PoapPage) => (
@@ -24,13 +29,13 @@ const PoapCard = ({ poap }: PoapPage) => (
                 </Typography>
             </CardContent>
             <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
-                {poap.description}
+                From {poap.claimed_on}
             </Box>
         </Box>
         <CardMedia
             component="img"
             sx={{ width: 200 }}
-            image={poap.img}
+            image={poap.image_url}
             alt={poap.name}
         />
     </Card>
@@ -38,48 +43,55 @@ const PoapCard = ({ poap }: PoapPage) => (
 
 
 const MyCollectionPage: NextPage = () => {
-    const poaps: Poap[] = [
-        {
-            img: vogue.src,
-            name: 'My Poap',
-            description: 'Este poap fue conseguido'
-        },
-        {
-            img: vogue.src,
-            name: 'My Poap',
-            description: 'Este poap fue conseguido'
-        },
-        {
-            img: vogue.src,
-            name: 'My Poap',
-            description: 'Este poap fue conseguido'
-        },
-        {
-            img: vogue.src,
-            name: 'My Poap',
-            description: 'Este poap fue conseguido'
-        },
-        {
-            img: vogue.src,
-            name: 'My Poap',
-            description: 'Este poap fue conseguido'
-        },
-    ]
+    const { address, isConnected } = useAccount()
+
+    const [poaps, setPoaps] = useState([])
+
+    const fetchData = async () => {
+        const url = `${process.env.NEXT_PUBLIC_URL_API}/collection?wallet=${address}`
+        const res = await fetch(url, {
+            method: 'GET'
+        }).then(res => res.json())
+
+        const ps = res.map((p: any) => {
+            const a: Poap = {
+                claimed_by: p.claimed_by,
+                claimed_on: p.claimed_on,
+                name: p.drop.name,
+                description: p.drop.description,
+                image_url: p.drop.image_url,
+                start_date: p.drop.start_date,
+                end_date: p.drop.end_date,
+            }
+            return a
+        })
+        setPoaps(ps)
+    }
+
+    useEffect(() => {
+        if (isConnected) {
+            fetchData()
+        }
+    }, [])
 
     return (
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Typography variant="h3" >
                 My Collection
             </Typography>
-            <Grid container spacing={3}>
-                {
-                    poaps.map((poap) => (
-                        <Grid item xs={12} sm={12} md={6} lg={4}>
-                            <PoapCard poap={poap} />
-                        </Grid>
-                    ))
-                }
-            </Grid>
+            {
+                poaps.length > 0 ?
+                    <Grid container spacing={3}>
+                        {
+                            poaps.map((poap) => (
+                                <Grid item xs={12} sm={12} md={6} lg={4}>
+                                    <PoapCard poap={poap} />
+                                </Grid>
+                            ))
+                        }
+                    </Grid>
+                    : <p>Wander and claim some poaps!</p>
+            }
         </Container>
     );
 }
