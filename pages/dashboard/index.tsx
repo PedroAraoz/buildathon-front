@@ -9,7 +9,7 @@ interface PoapPage {
 
 interface Poap {
     claimed_by: string
-    claimed_on: Date
+    claimed_on: string
     name: string
     description: string
     image_url: string
@@ -45,16 +45,16 @@ const PoapCard = ({ poap }: PoapPage) => (
 const MyCollectionPage: NextPage = () => {
     const { address, isConnected } = useAccount()
 
-    const [poaps, setPoaps] = useState([])
+    const [poaps, setPoaps] = useState<Poap[]>([]);
 
     const fetchData = async () => {
-        const url = `${process.env.NEXT_PUBLIC_URL_API}/collection?wallet=${address}`
-        const res = await fetch(url, {
-            method: 'GET'
-        }).then(res => res.json())
+        try {
+            const url = `${process.env.NEXT_PUBLIC_URL_API}/collection?wallet=${address}`
+            const res = await fetch(url, {
+                method: 'GET'
+            }).then(res => res.json())
 
-        const ps = res.map((p: any) => {
-            const a: Poap = {
+            const ps: Poap[] = res.map((p: any) => ({
                 claimed_by: p.claimed_by,
                 claimed_on: p.claimed_on,
                 name: p.drop.name,
@@ -62,10 +62,14 @@ const MyCollectionPage: NextPage = () => {
                 image_url: p.drop.image_url,
                 start_date: p.drop.start_date,
                 end_date: p.drop.end_date,
-            }
-            return a
-        })
-        setPoaps(ps)
+            })
+
+            )
+            setPoaps(ps)
+        } catch (error) {
+
+        }
+
     }
 
     useEffect(() => {
