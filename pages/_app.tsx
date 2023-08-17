@@ -1,6 +1,6 @@
 import '../styles/globals.css';
 import '@rainbow-me/rainbowkit/styles.css';
-import { getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit';
+import { ConnectButton, getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import type { AppProps } from 'next/app';
 import { configureChains, createConfig, WagmiConfig } from 'wagmi';
 import {
@@ -136,6 +136,12 @@ function MyApp({ Component, pageProps }: AppProps) {
                 >
                   <MenuIcon />
                 </IconButton>
+                {/* <IconButton
+                  color="inherit"
+                  edge="end"
+                >
+                  <ConnectButton />
+                </IconButton> */}
               </Toolbar>
             </AppBar>
             <Drawer variant="permanent" open={open}>
