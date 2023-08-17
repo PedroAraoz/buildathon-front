@@ -62,9 +62,8 @@ const MyCollectionPage: NextPage = () => {
                 image_url: p.drop.image_url,
                 start_date: p.drop.start_date,
                 end_date: p.drop.end_date,
-            })
+            }))
 
-            )
             setPoaps(ps)
         } catch (error) {
 

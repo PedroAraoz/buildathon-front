@@ -183,7 +183,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                     <ListItemText primary="Promociones" />
                   </ListItemButton>
                 </Link>
-                <ListItemButton>
+                {/* <ListItemButton>
                   <ListItemIcon>
                     <ShoppingCartIcon />
                   </ListItemIcon>
@@ -194,7 +194,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                     <ShoppingCartIcon />
                   </ListItemIcon>
                   <ListItemText primary="Perfil" />
-                </ListItemButton>
+                </ListItemButton> */}
               </List>
             </Drawer>
             <Box

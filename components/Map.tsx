@@ -13,7 +13,6 @@ const Map: React.FC = () => {
     const [currentLocation, setCurrentLocation] = useState<google.maps.LatLngLiteral | null>(null);
     const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
     const [address, setAddress] = useState("");
-
     const { isLoaded } = useLoadScript({
         googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "",
         libraries: ["places"],

@@ -47,7 +47,7 @@ const ClaimPage = () => {
 
   const uuid = searchParams.get('uuid')
 
-  const { data, isLoading, error } = useSWR(`${process.env.NEXT_PUBLIC_URL_API}/drop/${uuid}`, fetcher);
+  const { data } = useSWR(`${process.env.NEXT_PUBLIC_URL_API}/drop/${uuid}`, fetcher);
 
   const [currentLocation, setCurrentLocation] = React.useState(null);
   const [claimError, setClaimError] = React.useState(null);
@@ -96,7 +96,7 @@ const ClaimPage = () => {
 
   return (
     <>
-      {data && (
+      {data && !data.detail && (
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }} >
           <Grid container alignItems={'center'} justifyContent={'center'}>
             <Typography variant="h3" align='center'>
@@ -121,12 +121,8 @@ const ClaimPage = () => {
             </Snackbar>
           )}
 
-          {error && (
-            <Snackbar open={open} autoHideDuration={6000} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }} >
-              <Alert severity="error" sx={{ width: '100%' }}>
-                {error.detail}
-              </Alert>
-            </Snackbar>
+          {data.detail && (
+            <Typography variant='h3'>data.detail</Typography>
           )}
 
         </Container>
