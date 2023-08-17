@@ -12,7 +12,7 @@ import {
   zora,
 } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
-import { styled, createTheme, Badge, Box, Container, CssBaseline, IconButton, ThemeProvider, Toolbar, Typography, Divider, List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import { styled, createTheme, Box, Container, CssBaseline, IconButton, ThemeProvider, Toolbar, Divider, List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import MuiDrawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
